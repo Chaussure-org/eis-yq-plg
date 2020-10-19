@@ -1,0 +1,69 @@
+server:
+  port: 8903
+  servlet:
+    contextpath:    
+        
+spring:
+  application:
+    name: eis-yqfs-master
+  devtools: 
+    restart: 
+      enabled: true
+  datasource:
+    removeAbandonedTimeoutMillis: 1500000
+    #url: jdbc:mysql://localhost:3306/yqfs_eis?characterEncoding=utf-8&useSSL=false
+#    url: jdbc:mysql://39.96.69.213:3306/yqxccs?characterEncoding=utf-8&useSSL=false
+    username: root
+#    password: root
+#    #url: jdbc:mysql://39.96.69.213:3306/eis?characterEncoding=utf8&amp;useSSL=false
+    url: jdbc:mysql://192.166.11.240:3306/eis?characterEncoding=utf8&amp;useSSL=false
+#    username: root
+    #password: root
+    password: Qazwsx123!
+    #username: eis
+    #password: "eis123!"
+    driver-class-name: com.mysql.jdbc.Driver
+    #初始化大小
+    initialSize: 0
+    #最小空閒
+    minIdle: 5
+    #最大連接數
+    maxActive: 50
+    #最大等待時間
+    maxWait: 60000
+    #最小生存時間
+    minEvictableIdleTimeMillis: 25200000
+
+prolog:
+  eis:
+    clientPort: 9100
+    commandExucteRate: 1000
+    maxInLxCountPerStation: 5
+    wcs:
+      host: 192.166.11.240
+      #host: 192.168.41.114
+      port: 80
+
+  apidoc: #api文档配置文件
+    title: EIS主服务
+    basePackage: com.prolog.eis
+    description: EIS主服务
+    version: 1.0
+  dao:
+    dialect: mysql
+    pagehelper: #pagehelper分页插件配置
+      helperDialect: ${prolog.dao.dialect}
+      reasonable: true
+      supportMethodsArguments: true
+      pageSizeZero: false
+      params: count=countSql
+    #公共配置与profiles选择无关 mapperLocations指的路径是src/main/resources
+    mybatis:
+      typeAliasesPackage: com.prolog.eis.model
+      mapperLocations: classpath:mappers/*.xml
+      
+  web: 
+    multipart:  #文件上传配置
+      maxFileSize: 100MB
+      maxRequestSize: 100MB
+

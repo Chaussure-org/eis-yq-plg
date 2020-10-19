@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.prolog.eis.pickstation.dao.StationMapper">
+    <select id="getSeedTask" parameterType="int" resultType="com.prolog.eis.dto.pickorder.SeedTaskDto">
+        SELECT
+	        cm.order_hz_id as orderId,
+	        sop.container_no as orderBoxNo,
+	        cm.container_no AS containerNo,
+	        IF(cb.xk_store_id is not null,"承载中","通过") as carStatus,
+	        IF(cb.zt_store_id is not null,"承载中","未承载") as lineStatus,
+	        IF(slp.`status`=20,"承载中","未承载") as seedStatus,
+	        g.goods_name as goodsName,
+	        g.goods_no as goodsNo,
+	        g.specification as specification
+        FROM
+	        container_sub_binding_mx cm
+                left JOIN station_order_position sop
+	                on cm.order_hz_id = sop.order_id
+                LEFT JOIN station_lx_position slp
+	                on cm.container_no = slp.container_no
+                JOIN container_binding_hz cb
+	                on cb.container_no = cm.container_no
+                JOIN container_sub cs
+	                on cm.container_sub_no = cs.container_sub_no
+                JOIN goods g
+	                on cs.commodity_id = g.id
+	    where 1=1
+        <if test="containerNo != null and containerNo != ''">
+            and cm.container_no like concat(concat('%',#{containerNo}),'%')
+        </if>
+        <if test="goodsName != null and goodsName != ''">
+            and g.goods_name like concat(concat('%',#{goodsName}),'%')
+        </if>
+        <if test="goodsNo != null and goodsNo != ''">
+            and g.goods_no like concat(concat('%',#{goodsNo}),'%')
+        </if>
+    </select>
+
+</mapper>

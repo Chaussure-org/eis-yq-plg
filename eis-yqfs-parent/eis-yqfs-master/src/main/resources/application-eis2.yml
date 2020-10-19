@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    removeAbandonedTimeoutMillis: 120000000
+    url: jdbc:mysql://39.96.69.213:3306/yqxccs?characterEncoding=utf8&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    #初始化大小
+    initialSize: 0
+    #最小空閒
+    minIdle: 5
+    #最大連接數
+    maxActive: 50
+    #最大等待時間
+    maxWait: 60000
+    #最小生存時間
+    minEvictableIdleTimeMillis: 25200000
+
+prolog:
+  eis:
+    clientPort: 9100
+    commandExucteRate: 1000
+    maxInLxCountPerStation: 3
+    wcs:
+      host: 192.168.41.114
+      port: 8000
+
+
